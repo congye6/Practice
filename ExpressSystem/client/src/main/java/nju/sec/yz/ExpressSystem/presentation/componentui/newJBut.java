@@ -8,9 +8,11 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.Shape;
+import java.awt.Transparency;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.RoundRectangle2D;
+import java.awt.image.BufferedImage;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -89,6 +91,7 @@ public class newJBut extends JButton {
 
 	@Override
 	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D) g.create();
 		int h = getHeight();
 		int w = getWidth();
@@ -96,7 +99,6 @@ public class newJBut extends JButton {
 		float tran = 1F;
 		if (!hover) {
 			tran = 0.5F;
-			
 		}
 		// 步骤2
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -121,12 +123,25 @@ public class newJBut extends JButton {
 		g2d.fillRect(0, 0, w, h);
 		// 鼠标移入就绘制立体效果
 		if (hover) {
-			RoundRectangle2D.Float r2d2 = new RoundRectangle2D.Float(5, 2, w - 10, h / 2 - 1, h / 2, h / 2);
+			/*RoundRectangle2D.Float r2d2 = new RoundRectangle2D.Float(5, 2, w - 10, h / 2 - 1, h / 2, h / 2);
 			g2d.clip(r2d2);
 			GradientPaint gp2 = new GradientPaint(0.0F, 0.0F, new Color(120,120,120), 0.0F, h / 2,bottomcolor,
 					true);
 			g2d.setPaint(gp2);
-			g2d.fillRect(5, 2, w - 10, h / 2);
+			g2d.fillRect(5, 2, w - 10, h / 2);*/
+			
+			BufferedImage image = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
+			// 获取Graphics2D
+			Graphics2D pen = image.createGraphics();
+			//背景透明
+			image = pen.getDeviceConfiguration().createCompatibleImage(w, h, Transparency.TRANSLUCENT);
+			pen.dispose();
+			pen=image.createGraphics();
+			
+			pen.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.2F));
+			pen.drawImage(new ImageIcon("graphic/RMI/1.gif").getImage(), 0,0,w,h, null);
+			
+			g2d.drawImage(image, 0, 0, null);
 		}
 		g2d.setClip(clip);
 		// 绘制边框
@@ -135,7 +150,6 @@ public class newJBut extends JButton {
 		g2d.setPaint(p2);
 		g2d.drawRoundRect(1, 1, w - 3, h - 3, 1, 1);
 		g2d.dispose();
-		super.paintComponent(g);
 	}
 
 }

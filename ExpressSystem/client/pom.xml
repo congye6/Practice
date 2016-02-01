@@ -38,12 +38,7 @@
   </build>
   
   <dependencies>
-  <dependency>
-      <groupId>nju.sec.yz.ExpressSystem</groupId>
- 	  <artifactId>common</artifactId>
-  	  <version>0.0.1-SNAPSHOT</version>
-   	</dependency>
-   	
+ 
    	<dependency>
    	<groupId>org.jxl.tool</groupId>
 	<artifactId>Excel</artifactId>
@@ -61,10 +56,6 @@
     </dependency>
 
 
-    <dependency>
-    	<groupId>twaver</groupId>
-    	<artifactId>twaver</artifactId>
-    	<version>4.5.0</version>
-    </dependency>
+   
   </dependencies>
 </project>

@@ -1,8 +1,7 @@
 package nju.sec.yz.ExpressSystem.data.fileUtility.sql.uodate;
 
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
+
 
 public class UpdateSQLBuilder {
 
