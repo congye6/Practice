@@ -1,0 +1,69 @@
+package nju.sec.yz.ExpressSystem.data.fileUtility;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import nju.sec.yz.ExpressSystem.data.datafactory.ConnectionHelper;
+
+public class InsertHelper {
+	/**
+	 * 获得内置类型的PreparedStatement的set方法
+	 * String,int,float,double
+	 */
+	private static Map<String,Method> setterMap;
+	
+	static{
+		setterMap=new HashMap<>();
+		try {
+			setterMap.put("String", PreparedStatement.class.getMethod("setString", int.class,String.class));
+			setterMap.put("int", PreparedStatement.class.getMethod("setInt", int.class,int.class));
+			setterMap.put("float", PreparedStatement.class.getMethod("setFloat", int.class,float.class));
+			setterMap.put("double", PreparedStatement.class.getMethod("setDouble", int.class,double.class));
+		} catch (NoSuchMethodException e) {
+			e.printStackTrace();
+		} catch (SecurityException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public <T> void insert(T entity) throws SQLException{
+		List<Map<String, Object>> fieldInfoList = FieldsInfoTool.getFiledsInfo(entity);
+		InsertSQLBuilder builder=new InsertSQLBuilder();
+		String sql=builder.getSQL("driver",fieldInfoList.iterator());//entity.getClass.getSimpleName;
+		
+		Connection conn=ConnectionHelper.getConn();;
+		try {
+			PreparedStatement pst=conn.prepareStatement(sql);
+			
+			//设置值
+			for(int i=0;i<fieldInfoList.size();i++){
+				Map<String, Object> fieldInfo=fieldInfoList.get(i);
+				String type=(String)fieldInfo.get(FieldsInfoTool.TYPE_OF_FIELD);
+				if(setterMap.containsKey(type)){
+					Method method=setterMap.get(type);
+					try {
+						method.invoke(pst, i+1 , fieldInfo.get(FieldsInfoTool.VALUE_OF_FIELD));
+					} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+						e.printStackTrace();
+					}
+				}else{
+					pst.setObject(i+1, InsertObjectHelper.serialize(fieldInfo.get(FieldsInfoTool.VALUE_OF_FIELD)));
+				}
+			}
+			
+			pst.executeUpdate();
+			pst.close();
+		} catch (SQLException e) {
+			throw e;
+		}finally{
+			conn.close();
+		}
+	}
+	
+}
