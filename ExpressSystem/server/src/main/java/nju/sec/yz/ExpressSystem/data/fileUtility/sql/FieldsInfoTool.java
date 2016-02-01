@@ -1,4 +1,4 @@
-package nju.sec.yz.ExpressSystem.data.fileUtility;
+package nju.sec.yz.ExpressSystem.data.fileUtility.sql;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -9,11 +9,11 @@ import java.util.Map;
 
 public class FieldsInfoTool {
 	
-	static final String TYPE_OF_FIELD="f_type";
+	public static final String TYPE_OF_FIELD="f_type";
 	
-	static final String NAME_OF_FIELD="f_name";
+	public static final String NAME_OF_FIELD="f_name";
 	
-	static final String VALUE_OF_FIELD="f_value";
+	public static final String VALUE_OF_FIELD="f_value";
 	
 	/**
 	 * 根据属性名获取属性值

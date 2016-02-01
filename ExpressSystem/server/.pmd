@@ -156,10 +156,6 @@
             <ruleset>Braces Rules</ruleset>
         </rule>
         <rule>
-            <name>CloneMethodMustImplementCloneable</name>
-            <ruleset>Clone Implementation Rules</ruleset>
-        </rule>
-        <rule>
             <name>CloneThrowsCloneNotSupportedException</name>
             <ruleset>Clone Implementation Rules</ruleset>
         </rule>
@@ -921,18 +917,6 @@
         </rule>
         <rule>
             <name>CloneMethodMustImplementCloneable</name>
-            <ruleset>Type Resolution Rules</ruleset>
-        </rule>
-        <rule>
-            <name>LooseCoupling</name>
-            <ruleset>Type Resolution Rules</ruleset>
-        </rule>
-        <rule>
-            <name>SignatureDeclareThrowsException</name>
-            <ruleset>Type Resolution Rules</ruleset>
-        </rule>
-        <rule>
-            <name>UnusedImports</name>
             <ruleset>Type Resolution Rules</ruleset>
         </rule>
         <rule>

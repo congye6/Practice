@@ -12,10 +12,11 @@ import nju.sec.yz.ExpressSystem.common.DeliveryState;
 import nju.sec.yz.ExpressSystem.common.Result;
 import nju.sec.yz.ExpressSystem.common.ResultMessage;
 import nju.sec.yz.ExpressSystem.common.Sex;
-import nju.sec.yz.ExpressSystem.data.datafactory.ConnectionHelper;
-import nju.sec.yz.ExpressSystem.data.fileUtility.InsertHelper;
-import nju.sec.yz.ExpressSystem.data.fileUtility.InsertObjectHelper;
-import nju.sec.yz.ExpressSystem.data.fileUtility.InsertSQLBuilder;
+import nju.sec.yz.ExpressSystem.data.fileUtility.sql.ConnectionHelper;
+import nju.sec.yz.ExpressSystem.data.fileUtility.sql.delete.DeleteHelper;
+import nju.sec.yz.ExpressSystem.data.fileUtility.sql.insert.InsertHelper;
+import nju.sec.yz.ExpressSystem.data.fileUtility.sql.insert.InsertObjectHelper;
+import nju.sec.yz.ExpressSystem.data.fileUtility.sql.insert.InsertSQLBuilder;
 import nju.sec.yz.ExpressSystem.dataservice.carAndDriverDataSevice.DriverDataService;
 import nju.sec.yz.ExpressSystem.po.DriverPO;
 
@@ -27,7 +28,7 @@ public class DriverDataBaseImpl implements DriverDataService{
 		InsertHelper helper=new InsertHelper();
 		
 		try {
-			helper.insert(dpo);
+			helper.insert(dpo,"driver");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -58,8 +59,13 @@ public class DriverDataBaseImpl implements DriverDataService{
 
 	@Override
 	public ResultMessage delete(String id) throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
+		DeleteHelper helper=new DeleteHelper();
+		try {
+			helper.delete("id", "driver", id);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return new ResultMessage(Result.SUCCESS);
 	}
 
 	@Override

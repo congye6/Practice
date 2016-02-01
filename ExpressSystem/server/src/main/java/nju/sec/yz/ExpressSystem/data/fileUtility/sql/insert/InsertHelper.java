@@ -1,4 +1,4 @@
-package nju.sec.yz.ExpressSystem.data.fileUtility;
+package nju.sec.yz.ExpressSystem.data.fileUtility.sql.insert;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -9,7 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import nju.sec.yz.ExpressSystem.data.datafactory.ConnectionHelper;
+import nju.sec.yz.ExpressSystem.data.fileUtility.sql.ConnectionHelper;
+import nju.sec.yz.ExpressSystem.data.fileUtility.sql.FieldsInfoTool;
 
 public class InsertHelper {
 	/**
@@ -32,30 +33,16 @@ public class InsertHelper {
 		}
 	}
 
-	public <T> void insert(T entity) throws SQLException{
+	public <T> void insert(T entity,String tableName) throws SQLException{
 		List<Map<String, Object>> fieldInfoList = FieldsInfoTool.getFiledsInfo(entity);
 		InsertSQLBuilder builder=new InsertSQLBuilder();
-		String sql=builder.getSQL("driver",fieldInfoList.iterator());//entity.getClass.getSimpleName;
+		String sql=builder.getSQL(tableName,fieldInfoList.iterator());//TODO entity.getClass.getSimpleName;
 		
 		Connection conn=ConnectionHelper.getConn();;
 		try {
 			PreparedStatement pst=conn.prepareStatement(sql);
 			
-			//设置值
-			for(int i=0;i<fieldInfoList.size();i++){
-				Map<String, Object> fieldInfo=fieldInfoList.get(i);
-				String type=(String)fieldInfo.get(FieldsInfoTool.TYPE_OF_FIELD);
-				if(setterMap.containsKey(type)){
-					Method method=setterMap.get(type);
-					try {
-						method.invoke(pst, i+1 , fieldInfo.get(FieldsInfoTool.VALUE_OF_FIELD));
-					} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-						e.printStackTrace();
-					}
-				}else{
-					pst.setObject(i+1, InsertObjectHelper.serialize(fieldInfo.get(FieldsInfoTool.VALUE_OF_FIELD)));
-				}
-			}
+			prepareStatement(fieldInfoList, pst);
 			
 			pst.executeUpdate();
 			pst.close();
@@ -63,6 +50,25 @@ public class InsertHelper {
 			throw e;
 		}finally{
 			conn.close();
+		}
+	}
+	
+	//设置值
+	private void prepareStatement(List<Map<String, Object>> fieldInfoList, PreparedStatement pst) throws SQLException {
+		
+		for(int i=0;i<fieldInfoList.size();i++){
+			Map<String, Object> fieldInfo=fieldInfoList.get(i);
+			String type=(String)fieldInfo.get(FieldsInfoTool.TYPE_OF_FIELD);
+			if(setterMap.containsKey(type)){
+				Method method=setterMap.get(type);
+				try {
+					method.invoke(pst, i+1 , fieldInfo.get(FieldsInfoTool.VALUE_OF_FIELD));
+				} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+					e.printStackTrace();
+				}
+			}else{
+				pst.setObject(i+1, InsertObjectHelper.serialize(fieldInfo.get(FieldsInfoTool.VALUE_OF_FIELD)));
+			}
 		}
 	}
 	

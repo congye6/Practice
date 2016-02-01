@@ -1,12 +1,8 @@
-package nju.sec.yz.ExpressSystem.data.fileUtility;
+package nju.sec.yz.ExpressSystem.data.fileUtility.sql.insert;
 
 
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
-
-import nju.sec.yz.ExpressSystem.common.Sex;
-import nju.sec.yz.ExpressSystem.po.DriverPO;
 
 public class InsertSQLBuilder {
 

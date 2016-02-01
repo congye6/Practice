@@ -1,4 +1,4 @@
-package nju.sec.yz.ExpressSystem.data.fileUtility;
+package nju.sec.yz.ExpressSystem.data.fileUtility.sql.insert;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
