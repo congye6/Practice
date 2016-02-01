@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -33,7 +34,7 @@ public class FieldsInfoTool {
 	/**
 	 * 获取属性类型(f_type)，属性名(f_name)，属性值(f_value)的map组成的list
 	 */
-	static public <T> List<Map<String, Object>> getFiledsInfo(T o) {
+	static public <T> Iterator<Map<String, Object>> getFiledsInfo(T o) {
 		Field[] fields = o.getClass().getDeclaredFields();
 		List<Map<String, Object>> list = new ArrayList<>();
 		Map<String, Object> infoMap;
@@ -48,6 +49,15 @@ public class FieldsInfoTool {
 			
 			list.add(infoMap);
 		}
-		return list;
+		return list.iterator();
+	}
+	
+	static public <T> Iterator<String> getFieldsName(T o){
+		Field[] fields = o.getClass().getDeclaredFields();
+		List<String> list=new ArrayList<>();
+		for(int i = 0; i < fields.length ; i++){
+			list.add(fields[i].getName());
+		}
+		return list.iterator();
 	}
 }

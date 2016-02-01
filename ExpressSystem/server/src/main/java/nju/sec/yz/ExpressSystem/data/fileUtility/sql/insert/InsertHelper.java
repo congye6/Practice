@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -34,15 +35,15 @@ public class InsertHelper {
 	}
 
 	public <T> void insert(T entity,String tableName) throws SQLException{
-		List<Map<String, Object>> fieldInfoList = FieldsInfoTool.getFiledsInfo(entity);
+		Iterator<Map<String, Object>> fieldInfoIterator = FieldsInfoTool.getFiledsInfo(entity);
 		InsertSQLBuilder builder=new InsertSQLBuilder();
-		String sql=builder.getSQL(tableName,fieldInfoList.iterator());//TODO entity.getClass.getSimpleName;
+		String sql=builder.getSQL(tableName,fieldInfoIterator);//TODO entity.getClass.getSimpleName;
 		
 		Connection conn=ConnectionHelper.getConn();;
 		try {
 			PreparedStatement pst=conn.prepareStatement(sql);
 			
-			prepareStatement(fieldInfoList, pst);
+			prepareStatement(fieldInfoIterator, pst);
 			
 			pst.executeUpdate();
 			pst.close();
@@ -54,10 +55,10 @@ public class InsertHelper {
 	}
 	
 	//设置值
-	private void prepareStatement(List<Map<String, Object>> fieldInfoList, PreparedStatement pst) throws SQLException {
-		
-		for(int i=0;i<fieldInfoList.size();i++){
-			Map<String, Object> fieldInfo=fieldInfoList.get(i);
+	private void prepareStatement(Iterator<Map<String, Object>> iteraor, PreparedStatement pst) throws SQLException {
+		int i=0;
+		while(iteraor.hasNext()){
+			Map<String, Object> fieldInfo=iteraor.next();
 			String type=(String)fieldInfo.get(FieldsInfoTool.TYPE_OF_FIELD);
 			if(setterMap.containsKey(type)){
 				Method method=setterMap.get(type);
@@ -69,6 +70,7 @@ public class InsertHelper {
 			}else{
 				pst.setObject(i+1, InsertObjectHelper.serialize(fieldInfo.get(FieldsInfoTool.VALUE_OF_FIELD)));
 			}
+			i++;
 		}
 	}
 	
