@@ -19,13 +19,16 @@ public class InsertSQLTester {
 	public void test(){
 		DriverDataService data = new DriverDataBaseImpl();
 		try {
-//			data.insert(new DriverPO("025001B003", "hh", "19560312", "4378324623482348934", "1234455666", Sex.FEMALE,
+//			data.insert(new DriverPO("025001B004", "hh", "19560312", "4378324623482348934", "1234455666", Sex.FEMALE,
 //					"025001", "20170213"));
 
-			DriverPO po = data.find("025001B003");
+			DriverPO po = data.find("025001B004");
 			assertEquals(Sex.FEMALE, po.getSex());
 
 		} catch (RemoteException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
 	}

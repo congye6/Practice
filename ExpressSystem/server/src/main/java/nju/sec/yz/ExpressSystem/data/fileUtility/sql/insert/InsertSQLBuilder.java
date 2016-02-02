@@ -6,7 +6,7 @@ import java.util.Map;
 
 public class InsertSQLBuilder {
 
-	public String getSQL(String tableName,Iterator<Map<String,Object>> iterator){
+	public String getSQL(String tableName,Iterator<String> iterator){
 		String sql = "Insert into ";
 		String column = ""; // 列
 		String c_values = ""; // 列值
@@ -14,11 +14,11 @@ public class InsertSQLBuilder {
 		
 		sql += tableName + " ";//entity.getClass().getName();
 		while(iterator.hasNext()) {
-			Map<String,Object> fieldInfo=iterator.next();
-			if (fieldInfo.get("f_value") != null) {
-				column += fieldInfo.get("f_name") + ",";
-				c_values +=  "?,";
-			}
+			String fieldInfo = iterator.next();
+
+			column += fieldInfo + ",";
+			c_values += "?,";
+			
 		}
 		sql += "(" + column.substring(0, column.length() - 1) + ") values ("
 				+ c_values.substring(0, c_values.length() - 1) + ");";

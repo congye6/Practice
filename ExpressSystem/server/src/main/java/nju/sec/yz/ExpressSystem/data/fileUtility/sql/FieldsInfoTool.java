@@ -8,18 +8,26 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-public class FieldsInfoTool {
+public class FieldsInfoTool<T> {
 	
-	public static final String TYPE_OF_FIELD="f_type";
+	public static final int TYPE_OF_FIELD=0;
 	
-	public static final String NAME_OF_FIELD="f_name";
+	public static final int VALUE_OF_FIELD=1;
 	
-	public static final String VALUE_OF_FIELD="f_value";
+	private T entity;
 	
+	public FieldsInfoTool(T entity) {
+		this.entity=entity;
+	}
+	
+	public void setEntity(T entity){
+		this.entity=entity;
+	}
+
 	/**
 	 * 根据属性名获取属性值
 	 */
-	static private Object getFieldValueByName(String fieldName, Object o) {
+	private Object getFieldValueByName(String fieldName, Object o) {
 		try {
 			String firstLetter = fieldName.substring(0, 1).toUpperCase();
 			String getter = "get" + firstLetter + fieldName.substring(1);
@@ -34,30 +42,29 @@ public class FieldsInfoTool {
 	/**
 	 * 获取属性类型(f_type)，属性名(f_name)，属性值(f_value)的map组成的list
 	 */
-	static public <T> Iterator<Map<String, Object>> getFiledsInfo(T o) {
-		Field[] fields = o.getClass().getDeclaredFields();
-		List<Map<String, Object>> list = new ArrayList<>();
-		Map<String, Object> infoMap;
+	public Map<String,List< Object>> getFiledsInfo() {
+		Field[] fields = entity.getClass().getDeclaredFields();
+		Map<String,List<Object>> map = new HashMap<>();
+		List<Object> infoMap;
 
 		for (int i = 0; i < fields.length; i++) {
-			infoMap = new HashMap<String, Object>();
-			infoMap.put(TYPE_OF_FIELD, fields[i].getType().getSimpleName());
-			infoMap.put(NAME_OF_FIELD, fields[i].getName());
+			infoMap = new ArrayList<Object>();
+			infoMap.add(fields[i].getType().getSimpleName());
 			
-			Object value=getFieldValueByName(fields[i].getName(), o);
-			infoMap.put(VALUE_OF_FIELD, value);
+			Object value=getFieldValueByName(fields[i].getName(), entity);
+			infoMap.add(value);
 			
-			list.add(infoMap);
+			map.put(fields[i].getName(),infoMap);
 		}
-		return list.iterator();
+		return map;
 	}
 	
-	static public <T> Iterator<String> getFieldsName(T o){
-		Field[] fields = o.getClass().getDeclaredFields();
+	public List<String> getFieldsName(){
+		Field[] fields = entity.getClass().getDeclaredFields();
 		List<String> list=new ArrayList<>();
 		for(int i = 0; i < fields.length ; i++){
 			list.add(fields[i].getName());
 		}
-		return list.iterator();
+		return list;
 	}
 }
