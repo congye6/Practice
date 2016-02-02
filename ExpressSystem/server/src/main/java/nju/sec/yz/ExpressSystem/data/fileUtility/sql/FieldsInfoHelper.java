@@ -8,7 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-public class FieldsInfoTool<T> {
+public class FieldsInfoHelper<T> {
 	
 	public static final int TYPE_OF_FIELD=0;
 	
@@ -16,7 +16,7 @@ public class FieldsInfoTool<T> {
 	
 	private T entity;
 	
-	public FieldsInfoTool(T entity) {
+	public FieldsInfoHelper(T entity) {
 		this.entity=entity;
 	}
 	

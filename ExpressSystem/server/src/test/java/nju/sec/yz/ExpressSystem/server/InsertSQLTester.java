@@ -27,9 +27,6 @@ public class InsertSQLTester {
 
 		} catch (RemoteException e) {
 			e.printStackTrace();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} 
 	}
 	

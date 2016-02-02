@@ -31,16 +31,16 @@ public class PrepareStatementHelper {
 		}
 	}
 	
-	public void prepareStatement(PreparedStatement pst,String type,int i,List<Object> infoList) throws SQLException{
+	public void prepareStatement(PreparedStatement pst,String type,int i,Object value) throws SQLException{
 		if(setterMap.containsKey(type)){
 			Method method=setterMap.get(type);
 			try {
-				method.invoke(pst, i+1 , infoList.get(FieldsInfoTool.VALUE_OF_FIELD));
+				method.invoke(pst, i+1 , value);
 			} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 				e.printStackTrace();
 			}
 		}else{
-			pst.setObject(i+1, InsertObjectHelper.serialize(infoList.get(FieldsInfoTool.VALUE_OF_FIELD)));
+			pst.setObject(i+1, InsertObjectHelper.serialize(value));
 		}
 	}
 }
