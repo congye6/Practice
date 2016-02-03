@@ -1,11 +1,8 @@
 package nju.sec.yz.ExpressSystem.data.fileUtility.sql.insert;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +21,7 @@ public class InsertHelper {
 		InsertSQLBuilder builder=new InsertSQLBuilder();
 		String sql=builder.getSQL(tableName,fieldsNameList.iterator());//TODO entity.getClass.getSimpleName;
 		
-		Connection conn=ConnectionHelper.getConn();;
+		Connection conn=ConnectionHelper.getConn();
 		try {
 			PreparedStatement pst=conn.prepareStatement(sql);
 			
@@ -32,9 +29,7 @@ public class InsertHelper {
 			
 			pst.executeUpdate();
 			pst.close();
-		} catch (SQLException e) {
-			throw e;
-		}finally{
+		} finally{
 			conn.close();
 		}
 	}
@@ -47,7 +42,8 @@ public class InsertHelper {
 			String fieldName=iterator.next();
 			List<Object> infoList=map.get(fieldName);
 			String type=(String)infoList.get(FieldsInfoHelper.TYPE_OF_FIELD);
-			helper.prepareStatement(pst, type, i, infoList);
+			Object value=infoList.get(FieldsInfoHelper.VALUE_OF_FIELD);
+			helper.prepareStatement(pst, type, i, value);
 			i++;
 		}
 	}

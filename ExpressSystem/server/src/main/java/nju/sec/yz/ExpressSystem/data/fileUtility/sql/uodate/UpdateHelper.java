@@ -24,17 +24,43 @@ public class UpdateHelper {
 		//去掉主键
 		fieldsNameList.remove(primaryKey);
 		String sql=builder.getSQL(tableName, primaryKey,fieldsNameList.iterator());
-		PreparedStatement pst=conn.prepareStatement(sql);
+		try{
+			PreparedStatement pst=conn.prepareStatement(sql);
+			prepareStatement(primaryKey, fieldsNameList, infoMap, pst);
+			pst.executeUpdate();
+			pst.close();
+		}finally{
+			conn.close();
+		}
 		
+		
+	}
+
+	/**
+	 * 设置prepareStatement所有变量的值
+	 * @throws SQLException
+	 */
+	private void prepareStatement(String primaryKey, List<String> fieldsNameList, Map<String, List<Object>> infoMap,
+			PreparedStatement pst) throws SQLException {
 		PrepareStatementHelper pstHelper=new PrepareStatementHelper();
 		int i=1;
 		for(String fieldName:fieldsNameList){
-			List<Object> infoList=infoMap.get(fieldName);
-			String type=(String) infoList.get(FieldsInfoHelper.TYPE_OF_FIELD);
-			Object value=infoList.get(FieldsInfoHelper.VALUE_OF_FIELD);
-			pstHelper.prepareStatement(pst, type, i, value);
+			setStatementValue(infoMap, pst, pstHelper, i, fieldName);
 			i++;
 		}
+		setStatementValue(infoMap, pst, pstHelper, i, primaryKey);
+	}
+
+	/**
+	 * 设置prepareStatement一个变量的值
+	 * @throws SQLException
+	 */
+	private void setStatementValue(Map<String, List<Object>> infoMap, PreparedStatement pst,
+			PrepareStatementHelper pstHelper, int i, String fieldName) throws SQLException {
+		List<Object> infoList=infoMap.get(fieldName);
+		String type=(String) infoList.get(FieldsInfoHelper.TYPE_OF_FIELD);
+		Object value=infoList.get(FieldsInfoHelper.VALUE_OF_FIELD);
+		pstHelper.prepareStatement(pst, type, i, value);
 	}
 	
 }

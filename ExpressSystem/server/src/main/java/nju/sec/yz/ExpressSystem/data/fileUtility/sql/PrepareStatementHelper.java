@@ -8,8 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import nju.sec.yz.ExpressSystem.data.fileUtility.sql.insert.InsertObjectHelper;
-
 public class PrepareStatementHelper {
 	/**
 	 * 获得内置类型的PreparedStatement的set方法
@@ -35,12 +33,12 @@ public class PrepareStatementHelper {
 		if(setterMap.containsKey(type)){
 			Method method=setterMap.get(type);
 			try {
-				method.invoke(pst, i+1 , value);
+				method.invoke(pst, i , value);
 			} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 				e.printStackTrace();
 			}
 		}else{
-			pst.setObject(i+1, InsertObjectHelper.serialize(value));
+			pst.setObject(i, SerializetHelper.serialize(value));
 		}
 	}
 }

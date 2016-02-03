@@ -1,4 +1,4 @@
-package nju.sec.yz.ExpressSystem.data.fileUtility.sql.insert;
+package nju.sec.yz.ExpressSystem.data.fileUtility.sql;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -8,7 +8,7 @@ import java.io.ObjectOutputStream;
 import java.sql.Blob;
 import java.sql.SQLException;
 
-public class InsertObjectHelper {
+public class SerializetHelper {
 
 	static public Object deSerialize(Blob blob){
 		

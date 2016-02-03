@@ -7,10 +7,10 @@ public class UpdateSQLBuilder {
 
 	public String getSQL(String tableName,String primaryKey,Iterator<String> fieldsNameIterator) {
 	    
-	    String sql = "update "+tableName+" ";
+	    String sql = "update "+tableName+" set ";
 	    
 	    while(fieldsNameIterator.hasNext()){
-	    	sql+="set "+fieldsNameIterator.next()+"=?,";
+	    	sql+=fieldsNameIterator.next()+"=?,";
 	    }
 	    sql=sql.substring(0,sql.length()-1)+" ";
 	    

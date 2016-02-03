@@ -13,22 +13,27 @@ import nju.sec.yz.ExpressSystem.common.Result;
 import nju.sec.yz.ExpressSystem.common.ResultMessage;
 import nju.sec.yz.ExpressSystem.common.Sex;
 import nju.sec.yz.ExpressSystem.data.fileUtility.sql.ConnectionHelper;
+import nju.sec.yz.ExpressSystem.data.fileUtility.sql.SerializetHelper;
 import nju.sec.yz.ExpressSystem.data.fileUtility.sql.delete.DeleteHelper;
 import nju.sec.yz.ExpressSystem.data.fileUtility.sql.insert.InsertHelper;
-import nju.sec.yz.ExpressSystem.data.fileUtility.sql.insert.InsertObjectHelper;
 import nju.sec.yz.ExpressSystem.data.fileUtility.sql.insert.InsertSQLBuilder;
+import nju.sec.yz.ExpressSystem.data.fileUtility.sql.uodate.UpdateHelper;
 import nju.sec.yz.ExpressSystem.dataservice.carAndDriverDataSevice.DriverDataService;
 import nju.sec.yz.ExpressSystem.po.DriverPO;
 
 public class DriverDataBaseImpl implements DriverDataService{
 
+	private static final String TABLE_NAME="driver";
+	
+	private static final String PRIMARY_KEY="id";
+	
 	@Override
 	public ResultMessage insert(DriverPO dpo) throws RemoteException {
 		
 		InsertHelper helper=new InsertHelper();
 		
 		try {
-			helper.insert(dpo,"driver");
+			helper.insert(dpo,TABLE_NAME);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -48,7 +53,7 @@ public class DriverDataBaseImpl implements DriverDataService{
 				result=new DriverPO();
 				result.setAgency(resultSet.getString("agency"));
 				result.setBirthDate(resultSet.getString("birthDate"));
-				result.setSex((Sex)InsertObjectHelper.deSerialize(resultSet.getBlob("sex")));
+				result.setSex((Sex)SerializetHelper.deSerialize(resultSet.getBlob("sex")));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -61,7 +66,7 @@ public class DriverDataBaseImpl implements DriverDataService{
 	public ResultMessage delete(String id) throws RemoteException {
 		DeleteHelper helper=new DeleteHelper();
 		try {
-			helper.delete("id", "driver", id);
+			helper.delete(PRIMARY_KEY, TABLE_NAME, id);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -70,8 +75,13 @@ public class DriverDataBaseImpl implements DriverDataService{
 
 	@Override
 	public ResultMessage update(DriverPO dpo) throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
+		UpdateHelper helper=new UpdateHelper();
+		try {
+			helper.update(dpo,TABLE_NAME,PRIMARY_KEY);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return new ResultMessage(Result.SUCCESS);
 	}
 
 	@Override
