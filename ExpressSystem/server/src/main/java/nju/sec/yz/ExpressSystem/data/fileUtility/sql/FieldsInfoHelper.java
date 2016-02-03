@@ -29,8 +29,7 @@ public class FieldsInfoHelper<T> {
 	 */
 	private Object getFieldValueByName(String fieldName, Object o) {
 		try {
-			String firstLetter = fieldName.substring(0, 1).toUpperCase();
-			String getter = "get" + firstLetter + fieldName.substring(1);
+			String getter=GetterNameHelper.getGetterName(fieldName);
 			Method method = o.getClass().getMethod(getter, new Class[] {});
 			Object value = method.invoke(o, new Object[] {});
 			return value;
