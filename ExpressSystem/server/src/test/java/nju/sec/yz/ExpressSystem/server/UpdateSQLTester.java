@@ -25,10 +25,11 @@ public class UpdateSQLTester {
 	public void testUpdate(){
 		DriverDataService data=new DriverDataBaseImpl();
 		try {
-			data.update(new DriverPO("025001B004", "jj", "19560312", "4378324623482348934", "1234455666", Sex.FEMALE,
+			data.update(new DriverPO("025001B004", "jj", "19890912", "4378324623482348934", "1234455666", Sex.FEMALE,
 					"025001", "20170213"));
 			DriverPO po = data.find("025001B004");
 			assertEquals(Sex.FEMALE, po.getSex());
+			assertEquals("025001", po.getAgency());
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}

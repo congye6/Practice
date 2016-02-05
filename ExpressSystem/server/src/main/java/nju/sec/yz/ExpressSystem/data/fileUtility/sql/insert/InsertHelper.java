@@ -8,14 +8,14 @@ import java.util.List;
 import java.util.Map;
 
 import nju.sec.yz.ExpressSystem.data.fileUtility.sql.ConnectionHelper;
-import nju.sec.yz.ExpressSystem.data.fileUtility.sql.FieldsInfoHelper;
+import nju.sec.yz.ExpressSystem.data.fileUtility.sql.FieldsInfoGetter;
 import nju.sec.yz.ExpressSystem.data.fileUtility.sql.PrepareStatementHelper;
 
 public class InsertHelper {
 	
 
 	public <T> void insert(T entity,String tableName) throws SQLException{
-		FieldsInfoHelper<T> fieldsInfoTool=new FieldsInfoHelper<>(entity);
+		FieldsInfoGetter<T> fieldsInfoTool=new FieldsInfoGetter<>(entity);
 		Map<String,List<Object>> fieldInfoMap = fieldsInfoTool.getFiledsInfo();
 		List<String> fieldsNameList=fieldsInfoTool.getFieldsName();
 		InsertSQLBuilder builder=new InsertSQLBuilder();
@@ -41,8 +41,8 @@ public class InsertHelper {
 		while(iterator.hasNext()){
 			String fieldName=iterator.next();
 			List<Object> infoList=map.get(fieldName);
-			String type=(String)infoList.get(FieldsInfoHelper.TYPE_OF_FIELD);
-			Object value=infoList.get(FieldsInfoHelper.VALUE_OF_FIELD);
+			String type=(String)infoList.get(FieldsInfoGetter.TYPE_OF_FIELD);
+			Object value=infoList.get(FieldsInfoGetter.VALUE_OF_FIELD);
 			helper.prepareStatement(pst, type, i, value);
 			i++;
 		}

@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import nju.sec.yz.ExpressSystem.data.fileUtility.sql.ConnectionHelper;
-import nju.sec.yz.ExpressSystem.data.fileUtility.sql.FieldsInfoHelper;
+import nju.sec.yz.ExpressSystem.data.fileUtility.sql.FieldsInfoGetter;
 import nju.sec.yz.ExpressSystem.data.fileUtility.sql.PrepareStatementHelper;
 
 public class UpdateHelper {
@@ -15,7 +15,7 @@ public class UpdateHelper {
 	public <T> void update(T entity,String tableName,String primaryKey) throws SQLException{
 		Connection conn=ConnectionHelper.getConn();
 		UpdateSQLBuilder builder=new UpdateSQLBuilder();
-		FieldsInfoHelper<T> fieldsInfoTool=new FieldsInfoHelper<T>(entity);
+		FieldsInfoGetter<T> fieldsInfoTool=new FieldsInfoGetter<T>(entity);
 		List<String> fieldsNameList=fieldsInfoTool.getFieldsName();
 		Map<String,List<Object>> infoMap=fieldsInfoTool.getFiledsInfo();
 		if(!fieldsNameList.contains(primaryKey)){
@@ -58,8 +58,8 @@ public class UpdateHelper {
 	private void setStatementValue(Map<String, List<Object>> infoMap, PreparedStatement pst,
 			PrepareStatementHelper pstHelper, int i, String fieldName) throws SQLException {
 		List<Object> infoList=infoMap.get(fieldName);
-		String type=(String) infoList.get(FieldsInfoHelper.TYPE_OF_FIELD);
-		Object value=infoList.get(FieldsInfoHelper.VALUE_OF_FIELD);
+		String type=(String) infoList.get(FieldsInfoGetter.TYPE_OF_FIELD);
+		Object value=infoList.get(FieldsInfoGetter.VALUE_OF_FIELD);
 		pstHelper.prepareStatement(pst, type, i, value);
 	}
 	

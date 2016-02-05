@@ -4,11 +4,10 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-public class FieldsInfoHelper<T> {
+public class FieldsInfoGetter<T> {
 	
 	public static final int TYPE_OF_FIELD=0;
 	
@@ -16,7 +15,7 @@ public class FieldsInfoHelper<T> {
 	
 	private T entity;
 	
-	public FieldsInfoHelper(T entity) {
+	public FieldsInfoGetter(T entity) {
 		this.entity=entity;
 	}
 	

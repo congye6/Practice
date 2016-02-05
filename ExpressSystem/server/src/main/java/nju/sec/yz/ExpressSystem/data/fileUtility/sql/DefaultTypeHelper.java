@@ -15,6 +15,10 @@ public class DefaultTypeHelper {
 	
 	static{
 		defaultTypeMap=new HashMap<>();
+		defaultTypeMap.put("int", int.class);
+		defaultTypeMap.put("String", String.class);
+		defaultTypeMap.put("float", float.class);
+		defaultTypeMap.put("double", double.class);
 	}
 	
 	public boolean isDefultType(String type){
@@ -22,6 +26,8 @@ public class DefaultTypeHelper {
 	}
 	
 	public Class<?> getDefaultClass(String type){
+		if(!isDefultType(type))
+			return null;
 		return defaultTypeMap.get(type);
 	}
 	

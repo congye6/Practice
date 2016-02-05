@@ -17,6 +17,9 @@ import java.awt.image.BufferedImage;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
+import nju.sec.yz.ExpressSystem.presentation.myConponent.MouseEnterAction;
+import nju.sec.yz.ExpressSystem.presentation.myConponent.YellowOverride;
+
 public class newJBut extends JButton {
 	Color generalcolor=new Color(139,196,213);
 	Color bottomcolor=new Color(70,70,70,50);
@@ -129,19 +132,8 @@ public class newJBut extends JButton {
 					true);
 			g2d.setPaint(gp2);
 			g2d.fillRect(5, 2, w - 10, h / 2);*/
-			
-			BufferedImage image = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
-			// 获取Graphics2D
-			Graphics2D pen = image.createGraphics();
-			//背景透明
-			image = pen.getDeviceConfiguration().createCompatibleImage(w, h, Transparency.TRANSLUCENT);
-			pen.dispose();
-			pen=image.createGraphics();
-			
-			pen.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.2F));
-			pen.drawImage(new ImageIcon("graphic/RMI/1.gif").getImage(), 0,0,w,h, null);
-			
-			g2d.drawImage(image, 0, 0, null);
+			MouseEnterAction action=new YellowOverride();
+			action.paint(w, h, g2d);
 		}
 		g2d.setClip(clip);
 		// 绘制边框
