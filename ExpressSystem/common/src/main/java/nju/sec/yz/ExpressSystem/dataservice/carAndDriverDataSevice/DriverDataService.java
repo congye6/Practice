@@ -30,5 +30,5 @@ public interface DriverDataService extends Remote{
 	 * @return
 	 * @throws RemoteException
 	 */
-	public ArrayList<DriverPO> findAll(String positionId) throws RemoteException;
+	public List<DriverPO> findAll(String positionId) throws RemoteException;
 }

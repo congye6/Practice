@@ -9,9 +9,11 @@ import java.util.Map;
 
 public class FieldsInfoGetter<T> {
 	
-	public static final int TYPE_OF_FIELD=0;
+	public static final int TYPE_OF_FIELD=0;//属性的类型简称的索引
 	
-	public static final int VALUE_OF_FIELD=1;
+	public static final int VALUE_OF_FIELD=1;//属性的值的索引
+	
+	public static final int TYPE_FULLNAME_OF_FIELD=2;//属性全称的索引
 	
 	private T entity;
 	
@@ -43,16 +45,18 @@ public class FieldsInfoGetter<T> {
 	public Map<String,List< Object>> getFiledsInfo() {
 		Field[] fields = entity.getClass().getDeclaredFields();
 		Map<String,List<Object>> map = new HashMap<>();
-		List<Object> infoMap;
+		List<Object> infoList;
 
 		for (int i = 0; i < fields.length; i++) {
-			infoMap = new ArrayList<Object>();
-			infoMap.add(fields[i].getType().getSimpleName());
+			infoList = new ArrayList<Object>();
+			infoList.add(fields[i].getType().getSimpleName());
 			
 			Object value=getFieldValueByName(fields[i].getName(), entity);
-			infoMap.add(value);
+			infoList.add(value);
 			
-			map.put(fields[i].getName(),infoMap);
+			infoList.add(fields[i].getType().getName());
+			
+			map.put(fields[i].getName(),infoList);
 		}
 		return map;
 	}

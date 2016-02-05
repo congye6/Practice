@@ -1,22 +1,14 @@
 package nju.sec.yz.ExpressSystem.data.carAndDriverdata;
 
 import java.rmi.RemoteException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
-import nju.sec.yz.ExpressSystem.common.DeliveryState;
 import nju.sec.yz.ExpressSystem.common.Result;
 import nju.sec.yz.ExpressSystem.common.ResultMessage;
-import nju.sec.yz.ExpressSystem.common.Sex;
-import nju.sec.yz.ExpressSystem.data.fileUtility.sql.ConnectionHelper;
-import nju.sec.yz.ExpressSystem.data.fileUtility.sql.SerializetHelper;
 import nju.sec.yz.ExpressSystem.data.fileUtility.sql.delete.DeleteHelper;
+import nju.sec.yz.ExpressSystem.data.fileUtility.sql.find.FindHelper;
 import nju.sec.yz.ExpressSystem.data.fileUtility.sql.insert.InsertHelper;
-import nju.sec.yz.ExpressSystem.data.fileUtility.sql.insert.InsertSQLBuilder;
 import nju.sec.yz.ExpressSystem.data.fileUtility.sql.uodate.UpdateHelper;
 import nju.sec.yz.ExpressSystem.dataservice.carAndDriverDataSevice.DriverDataService;
 import nju.sec.yz.ExpressSystem.po.DriverPO;
@@ -43,23 +35,14 @@ public class DriverDataBaseImpl implements DriverDataService{
 
 	@Override
 	public DriverPO find(String id) throws RemoteException {
-		String sql="select * from driver where id='"+id+"'";
-		DriverPO result=null;
+		FindHelper helper=new FindHelper();
+		List<DriverPO> resultList=null;
 		try {
-			Connection conn=ConnectionHelper.getConn();
-			PreparedStatement pst=conn.prepareStatement(sql);
-			ResultSet resultSet=pst.executeQuery();
-			if(resultSet.next()){
-				result=new DriverPO();
-				result.setAgency(resultSet.getString("agency"));
-				result.setBirthDate(resultSet.getString("birthDate"));
-				result.setSex((Sex)SerializetHelper.deSerialize(resultSet.getBlob("sex")));
-			}
+			resultList = helper.find(DriverPO.class, "id", "driver", id, "String");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
-		return result;
+		return resultList.get(0);
 	}
 
 	@Override
@@ -86,14 +69,19 @@ public class DriverDataBaseImpl implements DriverDataService{
 
 	@Override
 	public ResultMessage init(List<DriverPO> drivers) throws RemoteException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ArrayList<DriverPO> findAll(String positionId) throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
+	public List<DriverPO> findAll(String positionId) throws RemoteException {
+		FindHelper helper=new FindHelper();
+		List<DriverPO> resultList=null;
+		try {
+			resultList = helper.find(DriverPO.class, "agency","driver",positionId,"String");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return resultList;
 	}
 
 }
