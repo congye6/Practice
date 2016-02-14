@@ -2,7 +2,6 @@ package nju.sec.yz.ExpressSystem.data.carAndDriverdata;
 
 import java.rmi.RemoteException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import nju.sec.yz.ExpressSystem.common.Result;
 import nju.sec.yz.ExpressSystem.common.ResultMessage;
@@ -38,7 +37,7 @@ public class DriverDataBaseImpl implements DriverDataService{
 		FindHelper helper=new FindHelper();
 		List<DriverPO> resultList=null;
 		try {
-			resultList = helper.find(DriverPO.class, "id", "driver", id, "String");
+			resultList = helper.find(DriverPO.class, PRIMARY_KEY, TABLE_NAME, id, "String");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -77,7 +76,7 @@ public class DriverDataBaseImpl implements DriverDataService{
 		FindHelper helper=new FindHelper();
 		List<DriverPO> resultList=null;
 		try {
-			resultList = helper.find(DriverPO.class, "agency","driver",positionId,"String");
+			resultList = helper.find(DriverPO.class, "agency",TABLE_NAME,positionId,"String");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

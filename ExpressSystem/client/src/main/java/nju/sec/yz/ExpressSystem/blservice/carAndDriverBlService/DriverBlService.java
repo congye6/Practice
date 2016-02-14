@@ -1,6 +1,8 @@
 package nju.sec.yz.ExpressSystem.blservice.carAndDriverBlService;
 
 import java.util.ArrayList;
+import java.util.List;
+
 import nju.sec.yz.ExpressSystem.vo.DriverVO;
 import nju.sec.yz.ExpressSystem.common.ResultMessage;
 
@@ -14,7 +16,7 @@ public interface DriverBlService {
 	 * 获得当前营业厅所有司机信息
 	 * @return
 	 */
-	public ArrayList<DriverVO> getAll();
+	public List<DriverVO> getAll();
 	
 	/**
 	 * 通过id查找本营业厅司机

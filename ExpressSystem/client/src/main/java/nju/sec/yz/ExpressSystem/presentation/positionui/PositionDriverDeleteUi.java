@@ -44,7 +44,7 @@ public class PositionDriverDeleteUi extends JPanel{
 	private newTable table;
 	private Vector<String> name=new Vector<String>();
 	private Vector<Vector<String>> data=new Vector<Vector<String>>();
-	private ArrayList<DriverVO> drivers;
+	private List<DriverVO> drivers;
 	
 	private static final int search_x=226;
 	private static final int search_y=66;

@@ -3,6 +3,7 @@ package nju.sec.yz.ExpressSystem.bl.carAndDriverbl;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import nju.sec.yz.ExpressSystem.bl.deliverbl.ValidHelper;
 import nju.sec.yz.ExpressSystem.bl.userbl.User;
@@ -37,9 +38,9 @@ public class Driver {
 		}
 	}
 
-	public ArrayList<DriverVO> getAll() {
-		ArrayList<DriverPO> listPO = null;
-		ArrayList<DriverVO> listVO = new ArrayList<DriverVO>();
+	public List<DriverVO> getAll() {
+		List<DriverPO> listPO = null;
+		List<DriverVO> listVO = new ArrayList<DriverVO>();
 		// 获取数据库中的userpo列表
 		try {
 			listPO = data.findAll(positionId);

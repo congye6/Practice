@@ -1,6 +1,6 @@
 package nju.sec.yz.ExpressSystem.bl.carAndDriverbl;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import nju.sec.yz.ExpressSystem.blservice.carAndDriverBlService.DriverBlService;
 import nju.sec.yz.ExpressSystem.common.ResultMessage;
@@ -10,12 +10,12 @@ import nju.sec.yz.ExpressSystem.vo.DriverVO;
  * @author 周聪
  *
  */
-public class DriverController implements DriverBlService{
+public class DriverController implements DriverBlService{                                           
 
 	@Override
-	public ArrayList<DriverVO> getAll() {
+	public List<DriverVO> getAll() {
 		Driver driver=new Driver();
-		ArrayList<DriverVO> list=driver.getAll();
+		List<DriverVO> list=driver.getAll();
 		return list;
 	}
 
